@@ -3,12 +3,7 @@ Implementation of the CCA-secure module lattice-based key encapsulation Saber su
 
 ## Setup
 
-After cloning or downloading the repository, it is necessary to add the libraries to work with the microcontroller. The most straightforward way to do it is to run the following commands since the library has been added as a submodule. More information about this library can be found in https://github.com/libopencm3/libopencm3.
-
-```sh
-$ git submodule init
-$ git submodule update
-```
+After cloning or downloading the repository, it is necessary to add the libraries to work with the microcontroller. In order to make it more straightforward for testing, as well as to keep the legacy version, we have added these required sources to the folder libopencm3. More information about this library can be found in https://github.com/libopencm3/libopencm3.
 
 #### Requirements
 
@@ -24,10 +19,16 @@ In order to communicate with the board through the serial port it is necessary a
 
 - `make saberMemsize` (alternatively `make saber-sharpMemsize`). This command will print out the memory utilization of each of the operations of the KEM.
 
-The table below summarizes the results of the available implementations.
+## Results
 
-Scheme    | key_gen [clock cycles]/[bytes] | encaps [clock cycles]/[bytes] | decaps [clock cycles]/[bytes]
---------- | ------------------------------ | ----------------------------- | -----------------------------
-Saber     | 1.165.845 / 6.931              | 1.530.745 / 7.019             | 1.635.720 / 8.115
-Saber#    | 1.162.680 / 6.923              | 1.528.061 / 5.987             | 1.633.035 / 7.163
+As mentioned in the README of the root directory, this code is an updated version that introduces little modifications in the rounding algorithm and makes the Saber implementation slightly faster than the results reported in the paper.
+
+The table below summarizes the results of the available implementations and a comparison to the legacy version.
+
+Scheme     | key_gen [clock cycles]/[bytes] | encaps [clock cycles]/[bytes] | decaps [clock cycles]/[bytes]
+---------- | ------------------------------ | ----------------------------- | -----------------------------
+Saber-old  | 1.165.845 / 6.931              | 1.530.745 / 7.019             | 1.635.720 / 8.115
+Saber#-old | 1.162.680 / 6.923              | 1.528.061 / 5.987             | 1.633.035 / 7.163
+Saber      | 1.160.546 / 6.931              | 1.521.578 / 7.019             | 1.631.248 / 8.115
+Saber#     | 1.158.114 / 6.923              | 1.519.271 / 5.987             | 1.628.941 / 7.163
 
