@@ -46,6 +46,11 @@
 
 #include <libopencm3/stm32/flash.h>
 
+void flash_clear_pgerr_flag(void)
+{
+	FLASH_SR |= FLASH_SR_PGERR;
+}
+
 /*---------------------------------------------------------------------------*/
 /** @brief Clear All Status Flags
 
@@ -54,29 +59,8 @@ Clears program error, end of operation, busy flags.
 
 void flash_clear_status_flags(void)
 {
-	flash_clear_pgperr_flag();
+	flash_clear_pgerr_flag();
 	flash_clear_eop_flag();
-	flash_clear_bsy_flag();
-}
-
-/**
- * Enable the FLASH Prefetch Buffer
- * This buffer is used for instruction fetches and is enabled by default after
- * reset.
- */
-void flash_prefetch_enable(void)
-{
-	FLASH_ACR |= FLASH_ACR_PRFTBE;
-}
-
-/**
- * Disable the FLASH Prefetch Buffer
- * This buffer is used for instruction fetches and is enabled by default after
- * reset.
- */
-void flash_prefetch_disable(void)
-{
-	FLASH_ACR &= ~FLASH_ACR_PRFTBE;
 }
 
 /**@}*/

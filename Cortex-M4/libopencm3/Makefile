@@ -25,7 +25,7 @@ STYLECHECKFLAGS := --no-tree -f --terse --mailback
 
 space:=
 space+=
-SRCLIBDIR:= $(subst $(space),\$(space),$(realpath lib))
+SRCLIBDIR:= $(subst $(space),/$(space),$(realpath lib))
 
 TARGETS ?=	stm32/f0 stm32/f1 stm32/f2 stm32/f3 stm32/f4 stm32/f7 \
 		stm32/l0 stm32/l1 stm32/l4 \
@@ -70,7 +70,11 @@ $(LIB_DIRS): $(IRQ_DEFN_FILES:=.genhdr)
 		echo "Failure building: $@: code: $$?" > .stamp_failure_$(subst /,_,$@)
 
 lib: $(LIB_DIRS)
-	$(Q)[ -f .stamp_failure_* ] && cat .stamp_failure_* && exit 1 || true;
+	$(Q)$(RM) .stamp_failure_tld
+	$(Q)for failure in .stamp_failure_*; do \
+		[ -f $$failure ] && cat $$failure >> .stamp_failure_tld || true; \
+	done;
+	$(Q)[ -f .stamp_failure_tld ] && cat .stamp_failure_tld && exit 1 || true;
 
 html doc:
 	$(Q)$(MAKE) -C doc html
